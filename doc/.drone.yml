@@ -1,0 +1,98 @@
+kind: pipeline
+name: default
+type: kubernetes
+steps:
+  ##打包
+  - name: package
+    image: node
+#    volumes:
+#      - name: cache
+#        path: /root/.m2
+    commands:
+      - npm install
+      - npm run build:prod
+  - name: build-image
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: register-user
+      password:
+        from_secret: register-pwd
+      repo: registry.cn-beijing.aliyuncs.com/wwdz540/-ui
+      registry: registry.cn-beijing.aliyuncs.com
+      tags:
+        - "${DRONE_TAG}"
+        - latest
+      dockerfile: doc/Dockerfile
+  # - name: dingtalk
+  #   image: lddsb/drone-dingtalk-message
+  #   settings:
+  #     token:
+  #       from_secret: ding
+  #     type: markdown
+  #     tips_title: 自动构建
+  #     sha_link: true
+  #   when:
+  #     status: [failure, success]
+### 只有tag时解发构建
+trigger:
+  event:
+    - tag
+volumes:
+  - name: cache
+    host:
+      path: /tmp/cache/.m2
+  ##构建测试环境
+---
+kind: pipeline
+name: test
+type: kubernetes
+steps:
+  - name: package
+    image: node
+    volumes:
+      - name: cache
+        path: /root/.m2
+    commands:
+      - npm install
+      - npm run build:stage
+  #构建镜像
+  - name: build-image
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: register-user
+      password:
+        from_secret: register-pwd
+      repo: registry.cn-beijing.aliyuncs.com/wwdz540/element-ui-plugins-demo
+      registry: registry.cn-beijing.aliyuncs.com
+      tags:
+        - latest
+      dockerfile: doc/Dockerfile
+  # 部署测试环境
+  - name: deploy-test
+    image: registry.cn-qingdao.aliyuncs.com/wwdz540/dron8s:1.0.8
+    settings:
+      yaml: doc/deploy-test.yml
+      namespace: test
+  # 推送消息
+  - name: dingtalk
+    image: lddsb/drone-dingtalk-message
+    settings:
+      token:
+        from_secret: ding
+      type: markdown
+      tips_title: 自动构建
+      sha_link: true
+    when:
+      status: [failure, success]
+### 只有tag时解发构建
+trigger:
+  branch:
+    - test
+  event:
+    - push
+volumes:
+  - name: cache
+    host:
+      path: /tmp/cache/.m2

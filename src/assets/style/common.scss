@@ -1,0 +1,135 @@
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+}
+
+// label {
+//   font-weight: 700;
+// }
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+li{ display:list-item }
+ul,li{ padding:0;margin:0;list-style:none}
+ol ul, ul ol,ul ul, ol ol  { margin-top: 0; margin-bottom: 0 }
+
+// main-container global css
+.app-container {
+  height: 100%;
+  padding: 10px 20px;
+}
+
+// .main-container{
+//   height: 100%;
+// }
+
+.page-container {
+  display:flex; /*父元素的定义为flex布局*/
+  height: 100%; /*这里也要定义，重要*/
+  width:100%;
+  flex-direction: column; /*定义排列方向为竖排*/
+  padding: 10px 20px;
+  background: #F1F4F7;
+}
+
+.header{
+  display: block;
+}
+
+.middle{
+  flex:1; /*中间分配剩下的所有空间*/
+  overflow:auto;
+  margin-top:24px;
+}
+.footer{
+  height:48px;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+/*正常情况下滑块的样式*/
+::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+  border-radius: 10px;
+  -webkit-box-shadow: inset1px1px0rgba(0, 0, 0, 0.1);
+}
+/*鼠标悬浮在该类指向的控件上时滑块的样式*/
+:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  -webkit-box-shadow: inset1px1px0rgba(0, 0, 0, 0.1);
+}
+/*鼠标悬浮在滑块上时滑块的样式*/
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: inset1px1px0rgba(0, 0, 0, 0.1);
+}
+/*正常时候的主干部分*/
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0);
+  background-color: white;
+}
+/*鼠标悬浮在滚动条上的主干部分*/
+::-webkit-scrollbar-track:hover {
+  -webkit-box-shadow: inset006pxrgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.01);
+}
+
+
+/*tabs*/
+.el-tabs{
+  height: 100%;
+  overflow: hidden;
+}
+.el-tabs__content{
+  height: 100%;
+}
+.el-tab-pane{
+  height: 100%;
+}

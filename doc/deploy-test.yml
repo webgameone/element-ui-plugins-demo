@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: element-ui-plugins-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: element-ui-plugins-demo
+  template:
+    metadata:
+      labels:
+        app: myapp
+        release: stabel
+        env: test
+    spec:
+      containers:
+        - name: element-ui-plugins-demo
+          image: registry.cn-beijing.aliyuncs.com/wwdz540/element-ui-plugins-demo
+          #本地有的话取本地，没有的话取远程仓库
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
