@@ -34,31 +34,14 @@
         </template>
       </vxe-pager>
     </div>
-
-    <!-- 可拖拽缩放的弹窗 -->
-    <ui-drag-popup
-      v-if="showpopup"
-      :popObj="popObj"
-      :dialogVisible="showpopup"
-      @popupBtnFn="popupBtnFn"
-    >
-      <div slot="slot">
-        <!-- form组件库 -->
-        <ui-form
-          ref="userForm"
-          :formObj="queryForm"
-        ></ui-form>
-      </div>
-    </ui-drag-popup>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'oaui',
+  name: 'defaultPage',
   data () {
     return {
-      showpopup:false,//弹窗的显示
       // form组件库
       dataForm:{
         id:'testForm',
@@ -97,11 +80,8 @@ export default {
           selectA:[],
           selectC:[],
           selectB:[],
-          selectD:[],//路由类型
-          updateType:[{text:'网点到中心',value:'网点到中心'},{text:'中心到中心',value:'中心到中心'},{text:'中心到网点',value:'中心到网点'}],
-          siteName:[],//节点网点
-          childSiteName:[],//子级网点
-          status:[{text:'未审核',value:'未审核'},{text:'审核通过',value:'审核通过'},{text:'审核驳回',value:'审核驳回'}],//审核状态
+          selectD:[],
+          selectF:[]
         },
         // form表单组件
         formArr:[
@@ -186,7 +166,7 @@ export default {
           {
             type:'selectShowIdComp',
             title:'普通带标题',
-            key:'siteName',
+            key:'selectF',
             placeholder:'不支持巨量数据',
             custText:'orgName',
             custValue:'orgName',
@@ -323,7 +303,6 @@ export default {
           layouts: ['Sizes', 'PrevJump', 'PrevPage', 'Number', 'NextPage', 'NextJump', 'FullJump']
         }
       },
-      routeNameData:[],
       tableTempData:[]
     }
   },
@@ -344,14 +323,15 @@ export default {
     },
     //创建下拉列表大数据测试
     getList(){
+      let tempArr = []
       for(let i = 0; i < 10000; i++){
-          this.routeNameData.push({
+          tempArr.push({
             text: "menu" + i,
             value: "menu" + i
           })
-          this.dataForm.selectData.selectA = this.routeNameData;
-          this.dataForm.selectData.selectC = this.routeNameData;
-          this.dataForm.selectData.selectB = this.routeNameData;
+          this.dataForm.selectData.selectA = tempArr;
+          this.dataForm.selectData.selectC = tempArr;
+          this.dataForm.selectData.selectB = tempArr;
       }
     },
     //创建table数据

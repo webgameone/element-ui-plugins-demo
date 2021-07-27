@@ -44,7 +44,7 @@ export default {
 <style lang="scss" scoped>
 .routes {
     margin-top: 10px;
-    width: 190px;
+    width: 300px;
     display: block;
     float: left;
     margin-left: 20px;
