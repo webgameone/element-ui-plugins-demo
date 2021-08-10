@@ -3,6 +3,7 @@
 import '@/assets/style/common.scss' // global css
 import "@/assets/iconfont.css"
 import "@/assets/z-tree/css/zTreeStyle/zTreeStyle.css"
+import 'mavon-editor/dist/css/index.css'
 
 import Vue from 'vue'
 import App from './App'
@@ -14,6 +15,11 @@ import Element from 'element-ui'
 import XEUtils from 'XEUtils'
 import Sortable from 'sortablejs'
 import VXETable from 'VXETable'
+
+
+// 引入makrdown插件
+import mavonEditor from 'mavon-editor'
+Vue.use(mavonEditor)
 
 //z-tree下的所有引用
 import jQuery from 'jQuery'

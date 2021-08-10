@@ -1,6 +1,15 @@
 // 测试路由
 export default [
   {
+    path: '/baseFormDoc',
+    name: 'baseFormDoc',
+    component: () => import('@/view/doc/baseForm/index'),
+    meta: {
+        title: 'form基础文档'
+    }
+  },
+
+  {
     path: '/defaultPage',
     name: 'defaultPage',
     component: () => import('@/view/example/defaultPage/index'),
