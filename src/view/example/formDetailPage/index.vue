@@ -27,7 +27,7 @@ export default {
         id:'testForm1',
         col:4,// 自定义列数
         labelWidth:100,// 自定义label的宽度
-        labelSuffix:':',
+        labelSuffix:'：',
         noButton:true,
         // 表单下方的按钮组
         bottomBtnArr:[
@@ -124,7 +124,7 @@ export default {
         id:'testForm2',
         col:4,// 自定义列数
         labelWidth:100,// 自定义label的宽度
-        labelSuffix:':',
+        labelSuffix:'：',
         labelTop:true,
         labelPosition:'left',
         noButton:true,

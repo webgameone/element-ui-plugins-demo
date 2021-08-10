@@ -1,3 +1,4 @@
+//form默认值
 <template>
   <div class="page-container">
     <div class="header clearfix">
@@ -5,6 +6,7 @@
         ref="uiForm"
         :formObj="dataForm"
         @formClick="formClick"
+        @loadNode="loadNode"
       ></ui-form>
     </div>
   </div>
@@ -70,6 +72,8 @@ export default {
           selectB: [],
           selectD: [],
           selectE: [],
+          siteName: [],
+          routeName:[{text:'吃饭',value:'吃饭'},{text:'睡觉',value:'睡觉'}],
           checkGroup:['标题1','标题2','标题3']
         },
         // form表单组件
@@ -103,7 +107,7 @@ export default {
           {
             type: 'inputComp',
             title: '复合输入框',
-            key: 'driver1Name',
+            key: 'complexName',
             maxlength: 50,
             clearable: true,
             autocomplete: 'on',
@@ -127,17 +131,17 @@ export default {
             title: '普通带标题',
             key: 'siteName',
             placeholder: '不支持巨量数据，大量数据会卡',
-            custText: 'orgName',
-            custValue: 'orgName',
+            // custText: 'text',
+            // custValue: 'value',
             options: [
               {
                 title: '城市',
-                str: 'orgName',
+                str: 'text',
                 mstyle: { width: '50%' },
               },
               {
                 title: '编码',
-                str: 'orgCode',
+                str: 'code',
                 mstyle: { textAlign: 'center', width: '50%' },
               },
             ],
@@ -169,8 +173,8 @@ export default {
             key: 'date',
             clearable: false,
             placeholder: '请选择年月日',
-            format: 'yyyy-MM', //该属性不设置默认年月日
-            valueFormat: 'yyyy-MM', //该属性不设置默认年月日
+            format: 'yyyy-MM-dd', //该属性不设置默认年月日
+            valueFormat: 'yyyy-MM-dd', //该属性不设置默认年月日
           },
           {
             type: 'dateTime',
@@ -214,7 +218,7 @@ export default {
             hasSlot: true, //是否 可以在当前列中再加入一个输入项，但是两个输入项的宽度需要自定义，否则都为100%
             slotData: {
               type: 'inputComp',
-              key: 'driver1Name',
+              key: 'vxeSelectName',
               maxlength: 50,
               clearable: true,
               autocomplete: 'on',
@@ -226,7 +230,7 @@ export default {
           {
             type: 'inputComp',
             title: '双组件搭配',
-            key: 'driver1Name',
+            key: 'frontInputName',
             maxlength: 50,
             clearable: true,
             autocomplete: 'on',
@@ -236,7 +240,7 @@ export default {
             hasSlot: true, //是否 可以在当前列中再加入一个输入项，但是两个输入项的宽度需要自定义，否则都为100%
             slotData: {
               type: 'checkboxComp',
-              key: 'driver3Name',
+              key: 'backCheckBox',
               title: '勾选框',
               width: '30%',
             },
@@ -286,7 +290,7 @@ export default {
           {
             type: 'timeRangeComp',
             title: '时间范围', //label名称
-            key: 'queryTime', //key值，唯一值
+            key: 'queryTime1', //key值，唯一值
             valueFormat: 'yyyy-MM-dd HH:mm:ss', //时间格式
             disabled: false, //是否允许禁用
             defaultTime: ['12:00:00', '23:59:59'], //默认时间，如果不设置默认['00:00:00', '23:59:59']
@@ -297,7 +301,7 @@ export default {
           {
             type: 'dateRangeComp',
             title: '日期范围',
-            key: 'queryTime',
+            key: 'queryTime2',
             outAdvanced: true,
             clearable: false,
             pickerOptions: {},
@@ -318,85 +322,109 @@ export default {
               //如果有提示信息，设置提示内容
               {
                 title: '标题1',
-
                 content: '这是里面的内容1',
               },
               {
                 title: '标题2',
-
                 content: '这是里面的内容2',
               },
               {
                 title: '标题3',
-
                 content: '这是里面的内容3',
               },
             ]
           },
-          {
-            type: "selectTree",
-            title: "下拉树",
-            key: "selectTree2",
-            placeholder: "请选择或输入查找",
-            treeObj:{
-              isShowInput: false,
-              key: "tree",
-              treeDeptData: [
-                {"id":"1001","roleName":"北京"},
-                {
-                  "id":"1002",
-                  "roleName":"江西",
-                  children:[
-                    {
-                      "id":"2001",
-                      "roleName":"景德镇",
-                    }
-                  ]
-                },
-                {"id":"1003","roleName":"广东"},
-                {"id":"1004","roleName":"浙江"},
-                {"id":"1006","roleName":"上海"}
-              ],
-              checkedKeys: [],
-              defaultProps: {
-                children: "children",
-                label: "roleName"
-              },
-              expandAll: false,
-              showCheckbox: false,
-              checkOnClickNode: true,
-              checkStrictly: false,
-              expandOnClickNode:true,
-              lazy:false
-            }
-          },
-          {
-            type: 'uploadComp',
-            title: '自动上传',
-            key: 'uploadA',
-            uploadType: 'autoUpload',
-            multiple: false, //如果设置未false或者去掉该属性，下方会有列表框，并且支持多选
-            acceptSize: 10, //只允许上传小于10M的文件
-          },
-          {
-            type:'uploadComp', //图片展示+预览（这里面的数据需要在imgData里面赋值）
-            title:'手动上传',
-            key:'uploadB',
-            uploadType:'handUpload', //手动上传
-            acceptSize:10  //只允许上传小于10M的文件
-          },
+          // {
+          //   type: "selectTree",
+          //   title: "下拉树",
+          //   key: "selectTree2",
+          //   placeholder: "请选择或输入查找",
+          //   treeObj:{
+          //     isShowInput: false,
+          //     key: "tree",
+          //     treeDeptData: [
+          //       {"id":"1001","roleName":"北京"},
+          //       {
+          //         "id":"1002",
+          //         "roleName":"江西",
+          //         children:[
+          //           {
+          //             "id":"2001",
+          //             "roleName":"景德镇",
+          //           }
+          //         ]
+          //       },
+          //       {"id":"1003","roleName":"广东"},
+          //       {"id":"1004","roleName":"浙江"},
+          //       {"id":"1006","roleName":"上海"}
+          //     ],
+          //     checkedKeys: [],
+          //     defaultProps: {
+          //       children: "children",
+          //       label: "roleName"
+          //     },
+          //     expandAll: false,
+          //     showCheckbox: false,
+          //     checkOnClickNode: true,
+          //     checkStrictly: false,
+          //     expandOnClickNode:true,
+          //     lazy:false
+          //   }
+          // },
+          // {
+          //   type: 'uploadComp',
+          //   title: '自动上传',
+          //   key: 'uploadA',
+          //   uploadType: 'autoUpload',
+          //   multiple: false, //如果设置未false或者去掉该属性，下方会有列表框，并且支持多选
+          //   acceptSize: 10, //只允许上传小于10M的文件
+          // },
+          // {
+          //   type:'uploadComp', //图片展示+预览（这里面的数据需要在imgData里面赋值）
+          //   title:'手动上传',
+          //   key:'uploadB',
+          //   uploadType:'handUpload', //手动上传
+          //   acceptSize:10  //只允许上传小于10M的文件
+          // },
           {
             type: 'textareaComp',
             title: 'textarea',
             rows: 4,
             minlength: '2',
             maxlength: 100,
-            key: 'textarea',
+            key: 'textareaComp',
           }
         ],
         model: {
+          inputA:'上海是一个大都市',
+          brand:24.56,
+          inputB:'Element，一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库',
+          complexName:'只想上班，不想睡觉',
+          routeName:'睡觉',
+          selectD:'选项20',
+          siteName:'选项100',
+          hms:new Date(2016, 9, 10, 8, 40),
+          date: new Date('2021','07','15','00','00','00'),
+          month: new Date('2021','07'),
+          radioComp:2,
+          isContain:true,
+          start:true,
+          vxeSelectKey:'吃饭',
+          vxeSelectName:'吃饭一定要吃饱',
+          frontInputName:'组件好不好用',
+          backCheckBox:true,
+          selectA:'选项100',
+          selectC:['选项5','选项150','选项220'],
+          selectB:'选项20',
+          queryTime1:[new Date('2021','07','15','00','00','00'),new Date('2021','07','25','11','20','00')],
+          queryTime2:[new Date('2021','07','15','00','00','00'),new Date('2021','07','25','11','20','00')],
+          cascaderKey:'qingpu',
+          // checkGroup:[], //如果不设置默认值，就必须先赋值为空数组
+          checkGroup:['标题2','标题3'],
+
           textContent: '这里是文字展示组件，后面空着的是个占位组件',
-          checkGroup:[] //必须先赋值为空数组
+          textareaComp:'textarea多行文字输入框'
+
         },
       },
     }
@@ -414,23 +442,36 @@ export default {
       let tempArr = []
       for (let i = 0; i < 300; i++) {
         tempArr.push({
-          text: 'menu' + i,
-          value: 'menu' + i,
+          text: '选项' + i,
+          value: '选项' + i,
+          code: 'city' +i
         })
-        this.dataForm.selectData.selectA = tempArr
-        this.dataForm.selectData.selectC = tempArr
-        this.dataForm.selectData.selectB = tempArr
-        this.dataForm.selectData.selectD = tempArr
-        this.dataForm.selectData.selectE = tempArr
+        this.dataForm.selectData.selectA = tempArr;
+        this.dataForm.selectData.selectC = tempArr;
+        this.dataForm.selectData.selectB = tempArr;
+        this.dataForm.selectData.selectD = tempArr;
+        this.dataForm.selectData.selectE = tempArr;
+        this.dataForm.selectData.siteName = tempArr;
       }
     },
-    formClick(event){
-      if(event.target.getAttribute('name')=='custLabel1'){
-        this.$message.success('你点击了年月日')
-      }
-      if(event.target.getAttribute('name')=='custLabel2'){
-        this.$message.success('你点击了月份')
-      }
+    loadNode(node, resolve) {
+      resolve([
+        {
+          label: "二级 1-1",
+          id:11,
+          children:[
+            {
+              label: "二级 1-1-1",
+              id:111,
+              pidL
+            }
+          ]
+        },
+        {
+          label: "二级 1-2",
+          id:12
+        }
+      ])
     },
     slotLabel(name) {
       return `<span>${name}</span><span name="custLabel2" style="color:#ff00d4;cursor:pointer;">(点击)</span>`;

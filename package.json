@@ -11,7 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "element-ui-plugins": "^0.2.5",
+    "element-ui-plugins": "^0.4.7",
     "js-cookie": "^2.2.0"
   },
   "devDependencies": {
