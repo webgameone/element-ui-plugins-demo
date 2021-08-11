@@ -97,10 +97,12 @@ export default {
   text-align: center;
   font-size: 58px;
   color:#ffffff;
+  margin:10px;
 }
 .textBox{
   width: 100%;
-  height: 100px;
+  height: 60px;
+  line-height: 60px;
   text-align: center;
 }
 .bottomBox{
@@ -121,7 +123,7 @@ export default {
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      font-size: 18px;
+      font-size: 16px;
       li{
         width: 50%;
         line-height: 50px;
