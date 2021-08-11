@@ -94,6 +94,7 @@ export default {
   background: #86baea;
 }
 .homeTitle{
+  display: block;
   text-align: center;
   font-size: 58px;
   color:#ffffff;
